@@ -1,0 +1,37 @@
+# compiled ypthon assets
+*.pyc
+pyvenv.cfg
+
+# include log files
+*.log
+geckodriver.log
+
+# screenshots
+frontend/screenshots
+browserstack/test-reports
+
+# cookie files
+frontend/cookies.pkl
+frontend/cookie_manipulated.pkl
+
+# code challenges
+standalone/code_challenges
+
+# local scripts
+local_dev
+
+# idea files
+*.idea
+
+# Distribution / packaging
+bin/
+lib/
+include/
+share/
+pip-selfcheck.json
+*man/
+
+*.Python
+*.pytest_cache
+*.noseids
+*.DS_Store
