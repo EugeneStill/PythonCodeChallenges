@@ -1,3 +1,5 @@
+import helpers.node as nd
+
 class LinkedList:
     def __init__(self, head=None):
         self.head = head
@@ -55,6 +57,12 @@ class LinkedList:
                 else:
                     count += 1
                     current = current.next
+        return
+
+    def create_linked_list(self, vals):
+        for v in vals:
+            new_node = nd.Node(v)
+            self.append(new_node)
         return
 
     def print(self):

@@ -6,12 +6,6 @@ pyvenv.cfg
 *.log
 geckodriver.log
 
-# code challenges
-standalone/code_challenges
-
-# local scripts
-local_dev
-
 # idea files
 *.idea
 
