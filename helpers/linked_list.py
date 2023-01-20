@@ -65,6 +65,15 @@ class LinkedList:
             self.append(new_node)
         return
 
+    def get_list_from_linked_list(self):
+        new_list = [self.head.value]
+        current = self.head
+        while current.next:
+            new_list.append(current.next.value)
+            current = current.next
+        return new_list
+
+
     def print(self):
         current = self.head
         while current:
