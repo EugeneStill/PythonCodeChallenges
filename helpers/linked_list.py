@@ -20,12 +20,12 @@ class LinkedList:
     def delete(self, value):
         current = self.head
         # if head has the value to be removed then set new head as the node that old head pointed to
-        if current.value == value:
+        if current.val == value:
             self.head = current.next
         # else go through nodes until value is found
         else:
             while current:
-                if current.value == value:
+                if current.val == value:
                     break
                 # this is going through the nodes, moving prev and current up 1 space at a time
                 prev = current
@@ -66,10 +66,10 @@ class LinkedList:
         return
 
     def get_list_from_linked_list(self):
-        new_list = [self.head.value]
+        new_list = [self.head.val]
         current = self.head
         while current.next:
-            new_list.append(current.next.value)
+            new_list.append(current.next.val)
             current = current.next
         return new_list
 
@@ -77,6 +77,6 @@ class LinkedList:
     def print(self):
         current = self.head
         while current:
-            print(current.value)
+            print(current.val)
             current = current.next
         return
