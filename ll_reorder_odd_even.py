@@ -37,10 +37,10 @@ class LLReorderOddEnd(unittest.TestCase):
         ll.create_linked_list(input_list)
         new_head = self.reorder_linked_list(ll.head)
         print("got new head")
-        result_list = [new_head.value]
+        result_list = [new_head.val]
         current = new_head
         while current.next:
-            result_list.append(current.next.value)
+            result_list.append(current.next.val)
             current = current.next
         self.assertEqual(expected_list, result_list)
 
