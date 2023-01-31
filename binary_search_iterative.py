@@ -2,17 +2,21 @@ import unittest
 
 class BinarySearch(unittest.TestCase):
 
-    def bin_search(self, sl, target) -> int:
-        start = 0
-        end = len(sl) - 1
-        while end >= start:
-            mid = start + ((end - start) // 2)
-            if sl[mid] == target:
+    def bin_search(self, nums, target) -> int:
+        if len(nums) == 0:
+            return -1
+
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
                 return mid
-            if sl[mid] > target:
-                end = mid -1
+            elif nums[mid] < target:
+                left = mid + 1
             else:
-                start = mid + 1
+                right = mid - 1
+
+        # End Condition: left > right
         return -1
 
     def test_bin_search(self):
