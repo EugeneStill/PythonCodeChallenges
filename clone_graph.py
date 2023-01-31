@@ -1,4 +1,5 @@
 import unittest
+import collections
 
 class Node(object):
     def __init__(self, val = 0, neighbors = None):
@@ -30,7 +31,7 @@ class CloneGraph(unittest.TestCase):
         # DFS Iterative
         if not node:
             return node
-        m, visited, stack = dict(), set(), deque([node])
+        m, visited, stack = dict(), set(), collections.deque([node])
         while stack:
             n = stack.pop()
             if n in visited:
