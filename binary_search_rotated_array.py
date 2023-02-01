@@ -60,8 +60,37 @@ class BinSearchRotation(unittest.TestCase):
         # cannot find the target value
         return -1
 
+    def bin_search_find_min(self, nums):
+        lo, hi = 0, len(nums) - 1
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if nums[mid] > nums[hi]:
+                lo = mid + 1
+            else:
+                hi = mid
+        return nums[lo]
+
+    def bin_search_find_min_with_dupes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        lo, hi = 0, len(nums) - 1
+        print("\n")
+        while lo < hi:
+            mid = (hi + lo) // 2
+            if nums[mid] > nums[hi]:
+                lo = mid + 1
+            elif nums[hi] != nums[mid]:
+                hi = mid
+            # when num[mid] == num[hi], min could be in mid's left or right, so reduce upper bound to check again.
+            else:
+                hi -= 1
+        return nums[lo]
+
     def test_rotation(self):
         left_rotated = [3, 4, 5, 6, 7, 1, 2]
+        rotated_with_dupes = [4,5,6,7,0,1,4]
         self.assertEqual(self.bin_search_rotation(left_rotated, 8), -1)
         self.assertEqual(self.bin_search_rotation(left_rotated, 0), -1)
         self.assertEqual(self.bin_search_rotation(left_rotated, 3), 0)
@@ -71,6 +100,8 @@ class BinSearchRotation(unittest.TestCase):
         self.assertEqual(self.bin_search_rotation(left_rotated, 7), 4)
         self.assertEqual(self.bin_search_rotation(left_rotated, 1), 5)
         self.assertEqual(self.bin_search_rotation(left_rotated, 2), 6)
+        self.assertEqual(self.bin_search_find_min(left_rotated), 1)
+        self.assertEqual(self.bin_search_find_min_with_dupes(rotated_with_dupes), 0)
 
 
 # def binarySearchPostProcessing(nums, target):
