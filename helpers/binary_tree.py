@@ -4,6 +4,11 @@ class TreeNode(object):
         self.val = val
         self.left = left
         self.right = right
+        self.root = None
+
+class BST(object):
+    def __init__(self):
+        self.root = None
 
     # build out a tree
     def insert_level(self, arr, i, n):
@@ -11,6 +16,8 @@ class TreeNode(object):
         # Base case for recursion
         if i < n:
             root = TreeNode(arr[i])
+            if self.root is None:
+                self.root = root
             # insert left child
             root.left = self.insert_level(arr, 2 * i + 1, n)
             # insert right child
