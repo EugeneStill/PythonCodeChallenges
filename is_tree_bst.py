@@ -3,7 +3,7 @@ import helpers.binary_tree as binary_tree
 
 class IsTreeBst(unittest.TestCase):
     def check_bst(self, root):
-        return self.check(root, -1, 100000)
+        return self.check(root, -float("inf"), float("inf"))
 
     def check(self, root, min, max):
         if root == None:
@@ -13,7 +13,7 @@ class IsTreeBst(unittest.TestCase):
         return self.check(root.left, min, root.val) and self.check(root.right, root.val, max)
 
     def test_is_tree_bst(self):
-        bt = binary_tree.TreeNode()
+        bt = binary_tree.BST()
         tree_123 = bt.insert_level([2, 1, 3], 0, 3)
         tree_321 = bt.insert_level([3, 2, 1], 0, 3)
         self.assertTrue(self.check_bst(tree_123))
