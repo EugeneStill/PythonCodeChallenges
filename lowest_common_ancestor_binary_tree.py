@@ -2,6 +2,12 @@ import unittest
 import helpers.binary_tree as binary_tree
 
 
+class Node(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 class LowestCommonAncestor(unittest.TestCase):
     """
     Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
@@ -16,6 +22,7 @@ class LowestCommonAncestor(unittest.TestCase):
         :type q: int
         :rtype: TreeNode
         """
+        print("ROOT {}".format(root.val))
         if root == p or root == q:
             return root
 
@@ -39,8 +46,28 @@ class LowestCommonAncestor(unittest.TestCase):
             print("L {} R {}".format(left, right))
             return left or right
 
+
+    def binary_tree(self, level_order):
+        values = iter(level_order)
+        root = Node(next(values))
+        nodes_to_fill = [root]
+        try:
+            while True:
+                next_node = nodes_to_fill.pop(0)
+                new_left = next(values)
+                if new_left is not None:
+                    next_node.left = Node(new_left)
+                    nodes_to_fill.append(next_node.left)
+                new_right = next(values)
+                if new_right is not None:
+                    next_node.right = Node(new_right)
+                    nodes_to_fill.append(next_node.right)
+        except StopIteration:
+            return root
+
     def test_lca(self):
         bst = binary_tree.BST()
         bst.insert_level([3,5,1,6,2,0,8,None,None,7,4], 0, 11)
         print(bst.root.left.val)
-        self.assertEqual(self.lowest_common_ancestor(bst.root, 5, 1).val, 3)
+        bt = self.binary_tree([3,5,1,6,2,0,8,None,None,7,4])
+        self.assertEqual(self.lowest_common_ancestor(bt, 5, 1), 3)
