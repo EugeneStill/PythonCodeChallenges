@@ -47,27 +47,7 @@ class LowestCommonAncestor(unittest.TestCase):
             return left or right
 
 
-    def binary_tree(self, level_order):
-        values = iter(level_order)
-        root = Node(next(values))
-        nodes_to_fill = [root]
-        try:
-            while True:
-                next_node = nodes_to_fill.pop(0)
-                new_left = next(values)
-                if new_left is not None:
-                    next_node.left = Node(new_left)
-                    nodes_to_fill.append(next_node.left)
-                new_right = next(values)
-                if new_right is not None:
-                    next_node.right = Node(new_right)
-                    nodes_to_fill.append(next_node.right)
-        except StopIteration:
-            return root
-
     def test_lca(self):
-        bst = binary_tree.BST()
-        bst.insert_level([3,5,1,6,2,0,8,None,None,7,4], 0, 11)
-        print(bst.root.left.val)
-        bt = self.binary_tree([3,5,1,6,2,0,8,None,None,7,4])
-        self.assertEqual(self.lowest_common_ancestor(bt, 5, 1), 3)
+        bt = binary_tree.BST()
+        bt.build_binary_tree([3,5,1,6,2,0,8,None,None,7,4])
+        self.assertEqual(self.lowest_common_ancestor(bt.root, 5, 1), 3)

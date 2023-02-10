@@ -23,3 +23,21 @@ class BST(object):
             # insert right child
             root.right = self.insert_level(arr, 2 * i + 2, n)
         return root
+
+    def build_binary_tree(self, level_order):
+        values = iter(level_order)
+        root = TreeNode(next(values))
+        nodes_to_fill = [root]
+        try:
+            while True:
+                next_node = nodes_to_fill.pop(0)
+                new_left = next(values)
+                if new_left is not None:
+                    next_node.left = TreeNode(new_left)
+                    nodes_to_fill.append(next_node.left)
+                new_right = next(values)
+                if new_right is not None:
+                    next_node.right = TreeNode(new_right)
+                    nodes_to_fill.append(next_node.right)
+        except StopIteration:
+            self.root = root
