@@ -9,6 +9,7 @@ class TreeNode(object):
 class BST(object):
     def __init__(self):
         self.root = None
+        self.list_output = []
 
     # build out a tree
     def insert_level(self, arr, i, n):
@@ -41,3 +42,19 @@ class BST(object):
                     nodes_to_fill.append(next_node.right)
         except StopIteration:
             self.root = root
+
+    def print_tree(self, tree_node, order="preorder"):
+        if order == "preorder":
+            print(tree_node.val)
+            self.list_output.append(tree_node.val)
+        if tree_node.left is not None:
+            self.print_tree(tree_node.left)
+        if order == "inorder":
+            print(tree_node.val)
+            self.list_output.append(tree_node.val)
+        if tree_node.right is not None:
+            self.print_tree(tree_node.right)
+        if order == "postorder":
+            print(tree_node.val)
+            self.list_output.append(tree_node.val)
+        return self.list_output
