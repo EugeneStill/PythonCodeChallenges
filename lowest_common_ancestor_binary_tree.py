@@ -14,6 +14,7 @@ class LowestCommonAncestor(unittest.TestCase):
 
     According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q
     as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+    # DEBUG LOCALLY.  WORKS ON LEETCODE BUT NOT LOCALLY.
     """
     def lowest_common_ancestor(self, root, p, q):
         """
@@ -37,7 +38,7 @@ class LowestCommonAncestor(unittest.TestCase):
         if left and right:
             print("GOT LEFT & RIGHT")
             return root
-        else:
+        elif left or right:
             # only one of the chidren returned a node, meaning either p or q found on left or right branch.
             # Example: assuming 'p' found in left child, right child returned 'None'. This means 'q' is
             # somewhere below node where 'p' was found we dont need to search all the way,
@@ -45,6 +46,8 @@ class LowestCommonAncestor(unittest.TestCase):
             print("ONLY GOT LEFT OR RIGHT")
             print("L {} R {}".format(left, right))
             return left or right
+        else:
+            print("NO NODES FOUND")
 
 
     def test_lca(self):
