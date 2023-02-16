@@ -31,30 +31,15 @@ class FloodFill(unittest.TestCase):
         :type color: int
         :rtype: List[List[int]]
         """
-        rows, cols = len(image), len(image[0])
-        og_color = image[sr][sc]
-
-        def isNotValidPixel(row, col):
-            return (
-                    row < 0 or row >= rows or
-                    col < 0 or col >= cols)
-
-        def isNotValidColor(row, col):
-            return (
-                    image[row][col] == new_color or
-                    image[row][col] != og_color)
-
         def dfs(row, col):
-            if isNotValidPixel(row, col): return
-            if isNotValidColor(row, col): return
-
             image[row][col] = new_color
-            dfs(row + 1, col)
-            dfs(row - 1, col)
-            dfs(row, col + 1)
-            dfs(row, col - 1)
+            for new_row, new_col in ((row-1, col), (row+1, col), (row, col-1), (row, col+1)):
+                if 0 <= new_row < rows and 0 <= new_col < cols and image[new_row][new_col] == og_color:
+                    dfs(new_row, new_col)
 
-        dfs(sr, sc)
+        rows, cols, og_color = len(image), len(image[0]), image[sr][sc]
+        if og_color != new_color:
+            dfs(sr, sc)
         return image
 
     def test_flood_fill(self):
