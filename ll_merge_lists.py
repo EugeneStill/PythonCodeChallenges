@@ -5,25 +5,29 @@ import helpers.linked_list as linked_list
 
 class LLMerge(unittest.TestCase):
 
-    def merge_sorted_lists_iterative(self, list1, list2):
+    def merge_sorted_lists_iterative(self, l1, l2):
         """
         :type list1: Optional[ListNode]
         :type list2: Optional[ListNode]
         :rtype: Optional[ListNode]
         """
-        # create dummy node that will point to new head of list and curr pointer that we can use to build new list
+        # cur and dummy will start at the same place, cur will move forward but dummy will not
+        # this allows to return dummy.next which will point to the root of the merged linked list
+        # because cur already traversed the list and established that root
         cur = dummy = nd.Node()
-        while list1 and list2:
-            if list1.val < list2.val:
-                cur.next = list1
-                list1, cur = list1.next, list1
+        while l1 and l2:
+            # set curr.next to point to lowest value in l1 or l2
+            # move l1 or l2 forward
+            # set cur to cur.next so that we can build out the merged list as we progress
+            if l1.val < l2.val:
+                cur.next = l1
+                l1 = l1.next
             else:
-                cur.next = list2
-                list2, cur = list2.next, list2
-
-        if list1 or list2:
-            cur.next = list1 if list1 else list2
-        # return dummy.next since that is still pointing to the beginning of the merged list
+                cur.next = l2
+                l2 = l2.next
+            cur = cur.next
+        # extend merged list if l1 or l2 has run out of nodes
+        cur.next = l1 or l2
         return dummy.next
 
     def merge_sorted_lists_recursive(self, l1, l2):

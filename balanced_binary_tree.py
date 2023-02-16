@@ -10,6 +10,17 @@ class IsBalanced(unittest.TestCase):
     """
     A height-balanced binary tree is a binary tree where the difference in depth of the 2 subtrees never > 1
     """
+    # def is_balanced(self, root):
+    #     self.Bal = True
+    #     self.dfs(root)
+    #     return self.Bal
+    #
+    # def dfs(self, node):
+    #      if not node: return 0
+    #      lft, rgh = self.dfs(node.left), self.dfs(node.right)
+    #      if abs(lft - rgh) > 1:
+    #          self.Bal = False
+    #      return max(lft, rgh) + 1
     def is_balanced(self, root):
         return (self.height(root) >= 0)
 
