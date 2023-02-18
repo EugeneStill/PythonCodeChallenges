@@ -22,40 +22,34 @@ class CoursePrereqs(unittest.TestCase):
         :type prerequisites: List[List[int]]
         :rtype: List[int]
         """
-        # preq dict {course: prerequisites}
-        preq = {course: set() for course in range(num_courses)}
-        graph = collections.defaultdict(set)
+        # map courses to preqs and preqs to courses
+        course_preq_dic = {course: set() for course in range(num_courses)}
+        preq_course_dic = collections.defaultdict(set)
+        for course, preq in prerequisites:
+            course_preq_dic[course].add(preq)
+            preq_course_dic[preq].add(course)
 
-        # update dict & build graph
-        for course, prereq in prerequisites:
-            preq[course].add(prereq)
-            graph[prereq].add(course)
+        # add any courses without preqs to new taken_q
+        taken_q = collections.deque([])
+        for course, preq in course_preq_dic.items():
+            if len(preq) == 0:
+                taken_q.append(course)
 
-        # create q for BFS
-        q = collections.deque([])
-        # find a vertex in the graph where we can start BFS. use courses that have no prereqs.
-        for course, prereq in preq.items():
-            if len(prereq) == 0:
-                q.append(course)
-
-        # do BFS
+        # go through q to see if we can take expected num of courses
         taken = []
-        while q:
-            course = q.popleft()
+        while taken_q:
+            course = taken_q.popleft()
             taken.append(course)
-            # If we have visited the num_courses we're done.
             if len(taken) == num_courses:
                 return taken
-            # For neighboring courses.
-            for neighbor in graph[course]:
-                # If the course we've just taken was a prereq for neighbor, remove it from neighbor's prereqs.
-                preq[neighbor].remove(course)
-                # If we've taken all of the preqs for the neighbor's course,
-                # add neighbor node to q so we can take that course
-                if not preq[neighbor]:
-                    q.append(neighbor)
-        # If we didn't hit num_courses in BFS, we know we can't take all of the courses.
-        return []
+            # use preq_course_dic to check every dependent course that had the course we just took as a preq
+            for dependent in preq_course_dic[course]:
+                # remove the taken course from the course_preq_dic for any dependent courses
+                course_preq_dic[dependent].remove(course)
+                # if dependent course no longer has any preqs then we can add it as course to take
+                if not course_preq_dic[dependent]:
+                    taken_q.append(dependent)
+        return False
 
     def test_prereqs(self):
         prereqs = [[1,0],[2,0],[3,1],[3,2]]
