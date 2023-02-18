@@ -11,7 +11,9 @@ class MaxDepth(unittest.TestCase):
         """
         def dfs(root, depth):
             if not root:
+                print("NO ROOT. DEPTH: {}".format(depth))
                 return depth
+            print("CHECKING ROOT {}".format(root.val))
             return max(dfs(root.left, depth + 1), dfs(root.right, depth + 1))
 
         return dfs(root, 0)

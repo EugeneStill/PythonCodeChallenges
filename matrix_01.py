@@ -1,4 +1,5 @@
 import unittest
+import collections
 
 class Matrix01(unittest.TestCase):
     """
@@ -20,22 +21,23 @@ class Matrix01(unittest.TestCase):
         :type matrix: List[List[int]]
         :rtype: List[List[int]]
         """
-        q = []
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                if matrix[i][j] == 0:
-                    q.append((i, j))
-                else:
-                    matrix[i][j] = -1
-        print("\nMAT " + str(matrix))
-        print("Q " + str(q))
-        for x, y in q:
-            print("checking x, y: {} {}".format(x, y))
-            for r, c in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
-                if 0 <= r < len(matrix) and 0 <= c < len(matrix[0]) and matrix[r][c] == -1:
-                    matrix[r][c] = matrix[x][y] + 1
+        q = collections.deque()
+        visited = set()
+        rows, cols = len(matrix), len(matrix[0])
+
+        for r in range(rows):
+            for c in range(cols):
+                if matrix[r][c] == 0:
                     q.append((r, c))
-                    print("added r, c {} {}".format(r, c))
+                    visited.add((r, c))
+
+        while q:
+            row, col = q.popleft()
+            for new_row, new_col in ((row - 1, col), (row + 1, col), (row, col - 1), (row, col + 1)):
+                if 0 <= new_row < rows and 0 <= new_col < cols and (new_row, new_col) not in visited:
+                    matrix[new_row][new_col] = matrix[row][col] + 1
+                    q.append((new_row, new_col))
+                    visited.add((new_row, new_col))
         return matrix
 
     def test_matrix(self):

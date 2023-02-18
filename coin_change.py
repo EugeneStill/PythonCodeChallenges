@@ -21,29 +21,21 @@ class coinChange(unittest.TestCase):
         :type amount: int
         :rtype: int
         """
-        q = collections.deque()
-        q.append((amount, 0))
+        q = collections.deque([(amount, 0)])
         visited = set()
-        visited.add(amount)
 
-        # we will set coin count then iterate through all each coin in coins
-        # for the number of coins in coin count we will determine the highest amount we can make with 1 coin, 2 coins, etc
-        # use the stack to increment coin count and also check results
         while q:
-            curr_amt, coin_count = q.popleft()
-            print("\nPOPPED: AMT {} COIN COUNT {}".format(curr_amt, coin_count))
+            curr_amt, count = q.popleft()
             if curr_amt == 0:
-                return coin_count
-            for c in coins:
-                print("COIN {}".format(c))
-                new_amt = curr_amt - c
-                print("COIN {} NEW AMOUNT {}".format(c, new_amt))
+                return count
+            for coin in coins:
+                new_amt = curr_amt - coin
+                # for each coin determine if new amount is valid (>=0) and add it to visited if not already there
+                # if the amount is already in visited then that means we arrived at that amount already with same or fewer coins
                 if new_amt >= 0 and new_amt not in visited:
-                    print("ADDING AMT {} COIN COUNT {} TO Q".format(new_amt, coin_count + 1))
-                    q.append((new_amt, coin_count + 1))
+                    q.append((new_amt, count + 1))
                     visited.add(new_amt)
         return -1
-
 
     def test_coin_change(self):
         self.coin_change([1,2,5], 11)

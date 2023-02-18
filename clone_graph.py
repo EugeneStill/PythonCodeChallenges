@@ -23,7 +23,7 @@ class CloneGraph(unittest.TestCase):
     4th node (val = 4)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
     """
 
-    def clone_graph(self, node):
+    def clone_graph_dfs(self, node):
         """
         :type node: Node
         :rtype: Node
@@ -31,20 +31,53 @@ class CloneGraph(unittest.TestCase):
         # DFS Iterative
         if not node:
             return node
-        m, visited, stack = dict(), set(), collections.deque([node])
+        # set up empty dic for new graph, set for visited and stack to process nodes starting with input node
+        new_graph, visited, stack = {}, set(), collections.deque([node])
+        # use stack to iteratre through all nodes and build out new_graph
         while stack:
+            # pop last added node and skip it if already visited
             n = stack.pop()
             if n in visited:
                 continue
+            # add node to visited
             visited.add(n)
-            if n not in m:
-                m[n] = Node(n.val)
+            # add node to new_graph if not present
+            if n not in new_graph:
+                new_graph[n] = Node(n.val)
+            # for each of node's neighbors check to see if neighbor node need to be added to graph
             for neigh in n.neighbors:
-                if neigh not in m:
-                    m[neigh] = Node(neigh.val)
-                m[n].neighbors.append(m[neigh])
+                if neigh not in new_graph:
+                    new_graph[neigh] = Node(neigh.val)
+                # add neighbor node to list of node's neighbors
+                new_graph[n].neighbors.append(new_graph[neigh])
+                # add neighbor node to the stack
                 stack.append(neigh)
-        return m[node]
+        return new_graph[node]
+
+    def clone_graph_bfs(self, node):
+        """
+        :type node: Node
+        :rtype: Node
+        """
+        # BFS Iterative
+        if not node:
+            return node
+
+        q, clones = collections.deque([node]), {node.val: Node(node.val, [])}
+        while q:
+            # pop oldest node from q
+            cur = q.popleft()
+
+            # for all of cur's neighbors
+            for ngbr in cur.neighbors:
+                # if neighbor not in clones, add it to clones and append to q
+                if ngbr.val not in clones:
+                    clones[ngbr.val] = Node(ngbr.val, [])
+                    q.append(ngbr)
+                # add the neighbor's val to current clone's list of neighbors
+                clones[cur.val].neighbors.append(clones[ngbr.val])
+
+        return clones[node.val]
 
     def test_cg(self):
         # work on tests after reviewing sections on graphs

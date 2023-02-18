@@ -17,26 +17,29 @@ class ThreeSum(unittest.TestCase):
         :rtype: List[List[int]]
         """
         nums.sort()
-        result = []
-        for left in range(len(nums) - 2):
-            if left > 0 and nums[left] == nums[left - 1]: # this step makes sure that we do not have any duplicates in our result output
+        nums_length, result = len(nums), []
+
+        for i in range(nums_length):
+            # make sure we are past start of list then skip any repeated values
+            if i > 0 and nums[i] == nums[i-1]:
                 continue
-            mid = left + 1
-            right = len(nums) - 1
-            while mid < right:
-                curr_sum = nums[left] + nums[mid] + nums[right]
-                if curr_sum < 0:
-                    mid += 1
-                elif curr_sum > 0:
-                    right -= 1
+            # determine target
+            target = nums[i] * -1
+            # set left, right for sliding window
+            left, right = i + 1, nums_length - 1
+            while left < right:
+                # if target found, update result and move sliding window forward
+                if nums[left] + nums[right] == target:
+                    result.append([nums[i], nums[left], nums[right]])
+                    left += 1
+                    # continue sliding window forward if duplicate elements are found
+                    while left < right and nums[left] == nums[left-1]:
+                        left +=1
+                # if target not found, slide window forward/back depending on whether sum of left+right elements < or > target
+                elif nums[left] + nums[right] < target:
+                    left += 1
                 else:
-                    result.append([nums[left], nums[mid], nums[right]])
-                    while mid < right and nums[mid] == nums[mid + 1]: # Another conditional for not calculating duplicates
-                        mid += 1
-                    while mid < right and nums[right] == nums[right - 1]: # Avoiding duplicates check
-                        right -= 1
-                    mid += 1
-                    right -= 1
+                    right -=1
         return result
 
     def test_three_sum(self):
