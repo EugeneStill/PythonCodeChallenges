@@ -45,8 +45,9 @@ class MyAtoi(unittest.TestCase):
             index += 1
 
         while index < len(s) and s[index].isdigit():
-            # curr_digit = int(s[index]) => could use int instead of ord
-            curr_digit = ord(s[index]) - ord('0')  # use ord 0 to get expected int value
+            curr_digit = int(s[index])
+            # could use ord instead of int
+            # curr_digit = ord(s[index]) - ord('0')  # use ord 0 to get expected int value
             # ('0', 48), ('1', 49), ('2', 50), ('3', 51), ('4', 52),
             # ('5', 53), ('6', 54), ('7', 55), ('8', 56), ('9', 57)
 

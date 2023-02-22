@@ -26,32 +26,33 @@ class AccountsMerge(unittest.TestCase):
         :type accounts: List[List[str]]
         :rtype: List[List[str]]
         """
-        graph, seen, ans = defaultdict(list), set(), []
+        email_graph, used_emails, result = defaultdict(list), set(), []
 
         # build graph
-        for acc in accounts:
-            # starting at 2 bc we only need to add nodes to graph if account has > 1 email.  (0 = name, 1= 1st email)
-            for i in range(2,len(acc)):
-                # in the graph connect each email to the one before it in the account
-                graph[acc[i]].append(acc[i-1])
-                graph[acc[i-1]].append(acc[i])
-                print(str(graph))
+        for a in accounts:
+            # start at 2 bc we only need to add nodes to graph if account has > 1 email.
+            # (0 = name, 1 = 1st email 2 or higher = additional emails)
+            for i in range(2, len(a)):
+                curr_email, prev_email = a[i], a[i-1]
+                email_graph[curr_email].append(prev_email)
+                email_graph[prev_email].append(curr_email)
 
         # recursive dfs function
         def dfs(email):
-            seen.add(email)
-            emailList = [email]
-            # if email isn't in graph then return email list, otherwise do dfs to add all connected emails to list
-            for edge in graph[email]:
-                if edge not in seen:
-                    emailList.extend(dfs(edge))
-            return emailList
+            used_emails.add(email)
+            email_list = [email]
+            # find any associated emails
+            for eml in email_graph[email]:
+                if eml not in used_emails:
+                    email_list.extend(dfs(eml))
+            return email_list
 
-        # dfs search of graph
-        for acc in accounts:
-            if acc[1] not in seen:
-                ans.append([acc[0]] + sorted(dfs(acc[1])))
-        return ans
+        # build result
+        for a in accounts:
+            user, first_email = a[0], a[1]
+            if first_email not in used_emails:
+                result.append([user] + sorted(dfs(first_email)))
+        return result
 
     def test_accounts_merge(self):
         accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],

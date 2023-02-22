@@ -24,10 +24,14 @@ class Trie(object):
         :rtype: None
         """
         node = self.root
-        for i in word:
-            if i not in node.children:
-                node.children[i] = TrieNode()
-            node = node.children[i]
+        # for each char in word
+        for c in word:
+            # if char is not already in the children of the node
+            if c not in node.children:
+                # add a new TrieNode to the children of the node for the character
+                node.children[c] = TrieNode()
+            # update node to be the char node in the current node's children
+            node = node.children[c]
         node.word = True
 
     def search(self, word):
@@ -36,10 +40,10 @@ class Trie(object):
         :rtype: bool
         """
         node = self.root
-        for i in word:
-            if i not in node.children:
+        for c in word:
+            if c not in node.children:
                 return False
-            node = node.children[i]
+            node = node.children[c]
         return node.word
 
     def starts_with(self, prefix):
@@ -48,10 +52,10 @@ class Trie(object):
         :rtype: bool
         """
         node = self.root
-        for i in prefix:
-            if i not in node.children:
+        for c in prefix:
+            if c not in node.children:
                 return False
-            node = node.children[i]
+            node = node.children[c]
         return True
 
 class test_trie(unittest.TestCase):

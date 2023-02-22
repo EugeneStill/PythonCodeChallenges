@@ -23,16 +23,16 @@ class WordBreak(unittest.TestCase):
         :type wordDict: List[str]
         :rtype: bool
         """
-        # dp
-        d = [False] * len(s)
+        dp = [False] * len(s)
         for i in range(len(s)):
             for w in words:
-                # does current word at end at i
-                # (AND was index before i True (meaning a valid word ended right before i)
-                # OR is i beginning of list (meaning its ok that there was no valid word before it))
-                if w == s[i-len(w)+1:i+1] and (d[i-len(w)] or i-len(w) == -1):
-                    d[i] = True
-        return d[-1]
+                # does current word end at i
+                # (AND dp[idx_before_word] is True (meaning a valid word ended right before this word)
+                # OR idx_before_word == -1 (meaning its ok that there was no valid word before it))
+                idx_before_word = i - len(w)
+                if w == s[idx_before_word + 1:i + 1] and (dp[idx_before_word] or idx_before_word == -1):
+                    dp[i] = True
+        return dp[-1]
 
     def test_word_break(self):
         words = ["cats","dog","sand","and","cat", "pen", "apple"]
