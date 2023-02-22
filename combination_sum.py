@@ -11,14 +11,19 @@ class CombinationSum(unittest.TestCase):
         res = []
         print("\n")
         def dfs(target, index, path):
+            print("GOT TARGET {} IDX {} PATH {}".format(target, index, path))
+            # backtrack to check path with next num in candidates
             if target < 0:
                 return  # backtracking to check path with next num in candidates
+            # add path to result then return to check path with next num in candidates
             if target == 0:
+                print("ADDING PATH {} TO RESULT".format(path))
                 res.append(path)
                 return
             for i in range(index, len(candidates)):
                 # use path + candidates[i] so that we get a new unique path for each dfs call
                 # would not work if we tried to use append since the same path would be used for all dfs calls
+                print("MAKING NEW CALL FOR TARGET {} IDX {} PATH {}".format(target - candidates[i], i, path + [candidates[i]]))
                 dfs(target - candidates[i], i, path + [candidates[i]])
 
         dfs(target, 0, [])
@@ -27,59 +32,53 @@ class CombinationSum(unittest.TestCase):
     def test_combination_sum(self):
         self.combination_sum([2,3,5], 8)
 
+
 # LOGGING
-# PATH IS []
-# CALLING DFS FOR TARGET 6 I 0 PATH [2]
-# PATH IS [2]
-# CALLING DFS FOR TARGET 4 I 0 PATH [2, 2]
-# PATH IS [2, 2]
-# CALLING DFS FOR TARGET 2 I 0 PATH [2, 2, 2]
-# PATH IS [2, 2, 2]
-# CALLING DFS FOR TARGET 0 I 0 PATH [2, 2, 2, 2]
-# PATH IS [2, 2, 2]
-# CALLING DFS FOR TARGET -1 I 1 PATH [2, 2, 2, 3]
-# SKIPPED TARGET -1
-# PATH IS [2, 2, 2]
-# CALLING DFS FOR TARGET -3 I 2 PATH [2, 2, 2, 5]
-# SKIPPED TARGET -3
-# PATH IS [2, 2]
-# CALLING DFS FOR TARGET 1 I 1 PATH [2, 2, 3]
-# PATH IS [2, 2, 3]
-# CALLING DFS FOR TARGET -2 I 1 PATH [2, 2, 3, 3]
-# SKIPPED TARGET -2
-# PATH IS [2, 2, 3]
-# CALLING DFS FOR TARGET -4 I 2 PATH [2, 2, 3, 5]
-# SKIPPED TARGET -4
-# PATH IS [2, 2]
-# CALLING DFS FOR TARGET -1 I 2 PATH [2, 2, 5]
-# SKIPPED TARGET -1
-# PATH IS [2]
-# CALLING DFS FOR TARGET 3 I 1 PATH [2, 3]
-# PATH IS [2, 3]
-# CALLING DFS FOR TARGET 0 I 1 PATH [2, 3, 3]
-# PATH IS [2, 3]
-# CALLING DFS FOR TARGET -2 I 2 PATH [2, 3, 5]
-# SKIPPED TARGET -2
-# PATH IS [2]
-# CALLING DFS FOR TARGET 1 I 2 PATH [2, 5]
-# PATH IS [2, 5]
-# CALLING DFS FOR TARGET -4 I 2 PATH [2, 5, 5]
-# SKIPPED TARGET -4
-# PATH IS []
-# CALLING DFS FOR TARGET 5 I 1 PATH [3]
-# PATH IS [3]
-# CALLING DFS FOR TARGET 2 I 1 PATH [3, 3]
-# PATH IS [3, 3]
-# CALLING DFS FOR TARGET -1 I 1 PATH [3, 3, 3]
-# SKIPPED TARGET -1
-# PATH IS [3, 3]
-# CALLING DFS FOR TARGET -3 I 2 PATH [3, 3, 5]
-# SKIPPED TARGET -3
-# PATH IS [3]
-# CALLING DFS FOR TARGET 0 I 2 PATH [3, 5]
-# PATH IS []
-# CALLING DFS FOR TARGET 3 I 2 PATH [5]
-# PATH IS [5]
-# CALLING DFS FOR TARGET -2 I 2 PATH [5, 5]
-# SKIPPED TARGET -2
-# [[2, 2, 2, 2], [2, 3, 3], [3, 5]]
+# GOT TARGET 8 IDX 0 PATH []
+# MAKING NEW CALL FOR TARGET 6 IDX 0 PATH [2]
+# GOT TARGET 6 IDX 0 PATH [2]
+# MAKING NEW CALL FOR TARGET 4 IDX 0 PATH [2, 2]
+# GOT TARGET 4 IDX 0 PATH [2, 2]
+# MAKING NEW CALL FOR TARGET 2 IDX 0 PATH [2, 2, 2]
+# GOT TARGET 2 IDX 0 PATH [2, 2, 2]
+# MAKING NEW CALL FOR TARGET 0 IDX 0 PATH [2, 2, 2, 2]
+# GOT TARGET 0 IDX 0 PATH [2, 2, 2, 2]
+# ADDING PATH [2, 2, 2, 2] TO RESULT
+# MAKING NEW CALL FOR TARGET -1 IDX 1 PATH [2, 2, 2, 3]
+# GOT TARGET -1 IDX 1 PATH [2, 2, 2, 3]
+# MAKING NEW CALL FOR TARGET -3 IDX 2 PATH [2, 2, 2, 5]
+# GOT TARGET -3 IDX 2 PATH [2, 2, 2, 5]
+# MAKING NEW CALL FOR TARGET 1 IDX 1 PATH [2, 2, 3]
+# GOT TARGET 1 IDX 1 PATH [2, 2, 3]
+# MAKING NEW CALL FOR TARGET -2 IDX 1 PATH [2, 2, 3, 3]
+# GOT TARGET -2 IDX 1 PATH [2, 2, 3, 3]
+# MAKING NEW CALL FOR TARGET -4 IDX 2 PATH [2, 2, 3, 5]
+# GOT TARGET -4 IDX 2 PATH [2, 2, 3, 5]
+# MAKING NEW CALL FOR TARGET -1 IDX 2 PATH [2, 2, 5]
+# GOT TARGET -1 IDX 2 PATH [2, 2, 5]
+# MAKING NEW CALL FOR TARGET 3 IDX 1 PATH [2, 3]
+# GOT TARGET 3 IDX 1 PATH [2, 3]
+# MAKING NEW CALL FOR TARGET 0 IDX 1 PATH [2, 3, 3]
+# GOT TARGET 0 IDX 1 PATH [2, 3, 3]
+# ADDING PATH [2, 3, 3] TO RESULT
+# MAKING NEW CALL FOR TARGET -2 IDX 2 PATH [2, 3, 5]
+# GOT TARGET -2 IDX 2 PATH [2, 3, 5]
+# MAKING NEW CALL FOR TARGET 1 IDX 2 PATH [2, 5]
+# GOT TARGET 1 IDX 2 PATH [2, 5]
+# MAKING NEW CALL FOR TARGET -4 IDX 2 PATH [2, 5, 5]
+# GOT TARGET -4 IDX 2 PATH [2, 5, 5]
+# MAKING NEW CALL FOR TARGET 5 IDX 1 PATH [3]
+# GOT TARGET 5 IDX 1 PATH [3]
+# MAKING NEW CALL FOR TARGET 2 IDX 1 PATH [3, 3]
+# GOT TARGET 2 IDX 1 PATH [3, 3]
+# MAKING NEW CALL FOR TARGET -1 IDX 1 PATH [3, 3, 3]
+# GOT TARGET -1 IDX 1 PATH [3, 3, 3]
+# MAKING NEW CALL FOR TARGET -3 IDX 2 PATH [3, 3, 5]
+# GOT TARGET -3 IDX 2 PATH [3, 3, 5]
+# MAKING NEW CALL FOR TARGET 0 IDX 2 PATH [3, 5]
+# GOT TARGET 0 IDX 2 PATH [3, 5]
+# ADDING PATH [3, 5] TO RESULT
+# MAKING NEW CALL FOR TARGET 3 IDX 2 PATH [5]
+# GOT TARGET 3 IDX 2 PATH [5]
+# MAKING NEW CALL FOR TARGET -2 IDX 2 PATH [5, 5]
+# GOT TARGET -2 IDX 2 PATH [5, 5]

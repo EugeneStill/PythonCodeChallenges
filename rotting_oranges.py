@@ -29,66 +29,41 @@ class OrangesRotting(unittest.TestCase):
         # Time complexity: O(rows * cols) -> each cell is visited at least once
         # Space complexity: O(rows * cols) -> in the worst case if all the oranges are rotten they will be added to the queue
 
-        # number of rows
         rows = len(grid)
         if rows == 0:  # check if grid is empty
             return -1
 
-        # number of columns
-        cols = len(grid[0])
+        EMPTY, FRESH, ROTTEN = 0, 1, 2
+        cols, fresh_cnt, minutes_passed, rotten = len(grid[0]), 0, 0, deque()
 
-        # keep track of fresh oranges
-        fresh_cnt = 0
-
-        # queue with rotten oranges (for BFS)
-        rotten = deque()
-
-        # visit each cell in the grid
+        # visit each cell in the grid & update fresh count & rotten queue
         for r in range(rows):
             for c in range(cols):
-                if grid[r][c] == 2:
-                    # add the rotten orange coordinates to the queue
+                if grid[r][c] == ROTTEN:
                     rotten.append((r, c))
-                elif grid[r][c] == 1:
-                    # update fresh oranges count
+                elif grid[r][c] == FRESH:
                     fresh_cnt += 1
-
-        # keep track of minutes passed.
-        minutes_passed = 0
 
         # If there are rotten oranges in the queue and there are still fresh oranges in the grid keep looping
         while rotten and fresh_cnt > 0:
 
-            # update the number of minutes passed
-            # it is safe to update the minutes by 1, since we visit oranges level by level in BFS traversal.
+            # update the number of minutes for each level pass
             minutes_passed += 1
 
             # process rotten oranges on the current level
             for _ in range(len(rotten)):
-                x, y = rotten.popleft()
+                row, col = rotten.popleft()
 
-                # visit all the adjacent cells
-                for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-                    # calculate the coordinates of the adjacent cell
-                    xx, yy = x + dx, y + dy
-                    # ignore the cell if it is out of the grid boundary
-                    if xx < 0 or xx == rows or yy < 0 or yy == cols:
-                        continue
-                    # ignore the cell if it is empty '0' or visited before '2'
-                    if grid[xx][yy] == 0 or grid[xx][yy] == 2:
+                # visit all the valid adjacent cells
+                for new_row, new_col in [(row-1,col), (row+1,col), (row,col-1), (row,col+1)]:
+                    if not 0 <= new_row < rows or not 0 <= new_col < cols or grid[new_row][new_col] != FRESH:
                         continue
 
-                    # update the fresh oranges count
+                    # update the fresh count, mark cell rotten and add to queue
                     fresh_cnt -= 1
+                    grid[new_row][new_col] = ROTTEN
+                    rotten.append((new_row, new_col))
 
-                    # mark the current fresh orange as rotten
-                    grid[xx][yy] = 2
-
-                    # add the current rotten to the queue
-                    rotten.append((xx, yy))
-
-        # return the number of minutes taken to make all the fresh oranges to be rotten
-        # return -1 if there are fresh oranges left in the grid (there were no adjacent rotten oranges to make them rotten)
         return minutes_passed if fresh_cnt == 0 else -1
 
     def test_ro(self):

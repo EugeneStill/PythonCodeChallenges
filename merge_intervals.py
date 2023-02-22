@@ -14,13 +14,13 @@ class MergeIntervals(unittest.TestCase):
         :type intervals: List[List[int]]
         :rtype: List[List[int]]
         """
-        out = []
+        result = []
         for i in sorted(intervals, key=lambda i: i[0]):
-            if out and i[0] <= out[-1][1]:
-                out[-1][1] = max(out[-1][1], i[1])
+            if result and i[0] <= result[-1][1]:
+                result[-1][1] = max(result[-1][1], i[1])
             else:
-                out += [i]
-        return out
+                result.append(i)
+        return result
 
     def test_mi(self):
         input = [[1,3],[2,6],[8,10],[15,18]]

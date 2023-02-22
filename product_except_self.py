@@ -23,9 +23,9 @@ class ProductExceptSelf(unittest.TestCase):
             res.append(acc)
             acc *= n
             print(str(res))
-        acc = 1
-        print("backtrack")
         # now work backwards, and update product in the opposite direction while also excluding current num
+        print("backtrack")
+        acc = 1
         for i in reversed(range(len(nums))):
             res[i] *= acc
             print(str(res))

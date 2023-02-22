@@ -3,14 +3,14 @@ import helpers.binary_tree as binary_tree
 
 class IsTreeBst(unittest.TestCase):
     def check_bst(self, root):
-        return self.check(root, -float("inf"), float("inf"))
+        def check(root, min_val, max_val):
+            if not root:
+                return True
+            if not min_val < root.val < max_val:
+                return False
+            return check(root.left, min_val, root.val) and check(root.right, root.val, max_val)
 
-    def check(self, root, min, max):
-        if root == None:
-            return True
-        if root.val <= min or root.val >= max:
-            return False
-        return self.check(root.left, min, root.val) and self.check(root.right, root.val, max)
+        return check(root, -float("inf"), float("inf"))
 
     def test_is_tree_bst(self):
         bt = binary_tree.BST()

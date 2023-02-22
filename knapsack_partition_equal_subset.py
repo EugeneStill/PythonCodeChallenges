@@ -25,10 +25,11 @@ class CanPartition(unittest.TestCase):
         dp[0] = True
 
         for num in nums:
+            print("\nCHECKING NUM {}".format(num))
             if num > target:
                 return False
             for i in range(target, num - 1, -1):
-                print("\nCHECKING NUM {} i {}".format(num, i))
+                print("CHECKING i {}".format(i))
                 if dp[target]:
                     return True
                 dp[i] = dp[i] or dp[i - num]

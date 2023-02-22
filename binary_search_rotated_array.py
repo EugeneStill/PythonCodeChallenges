@@ -34,30 +34,26 @@ class BinSearchRotation(unittest.TestCase):
         :rtype: int
         """
         left, right = 0, len(nums) - 1
-        print("\n SEARCHING FOR {}".format(target))
         while left <= right:
             mid = (left + right) // 2
-            # if found target value, return the index
             if nums[mid] == target:
                 return mid
 
-            # left rotated or not rotated
+            # determine if pivot was before orignal mid by comparing mid and left
+            # before
             if nums[mid] >= nums[left]:
-                print("checking lr")
-                # in ascending order side
-                if nums[left] <= target and target < nums[mid]:
+                # if target is between left and mid, decrease right, else increase left
+                if nums[left] <= target < nums[mid]:
                     right = mid - 1
                 else:
                     left = mid + 1
-            # right rotated
+            # after
             else:
-                print("checking rr")
-                # in ascending order side
-                if nums[mid] < target and target <= nums[right]:
+                # if target is between mid and right, increase left else decrease right
+                if nums[mid] < target <= nums[right]:
                     left = mid + 1
                 else:
                     right = mid - 1
-        # cannot find the target value
         return -1
 
     def bin_search_find_min(self, nums):

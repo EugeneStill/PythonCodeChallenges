@@ -21,24 +21,25 @@ class SortColors(unittest.TestCase):
         """
         red, white, blue = 0, 0, len(nums) - 1
 
-        """
-        We are classifying the array into four groups: red, white, unclassified, and blue. 
-        Initially we group all elements into unclassified. 
-        We iterate from the beginning as long as the white pointer is less than the blue pointer.
-        If the white pointer is red (0) we swap with the red pointer and move both white and red pointer forward. 
-        If the pointer is white (1) element is in correct place. don't swap, just move the white pointer forward. 
-        If the white pointer is blue, we swap with the latest unclassified element.
-        """
-        while white <= blue:
-            if nums[white] == 0:
-                nums[red], nums[white] = nums[white], nums[red]
-                white += 1
-                red += 1
-            elif nums[white] == 1:
-                white += 1
+        # use 3 pointers to track boundaries in list
+        after_white, after_red, before_blue = 0, 0, len(nums) - 1
+        RED, WHITE, BLUE = 0, 1, 2
+
+        # we will use the middle pointer (after_white) to evaluate when we need to move elements
+        while after_white <= before_blue:
+            print("\n" + str(nums))
+            # FOUND RED. MOVE TO LEFT SIDE OF LIST.
+            if nums[after_white] == RED:
+                nums[after_red], nums[after_white] = nums[after_white], nums[after_red]
+                after_white += 1
+                after_red += 1
+            # FOUND WHITE.  KEPT IN MIDDLE.
+            elif nums[after_white] == WHITE:
+                after_white += 1
+            # FOUND BLUE.  MOVED TO RIGHT SIDE OF LIST.
             else:
-                nums[white], nums[blue] = nums[blue], nums[white]
-                blue -= 1
+                nums[after_white], nums[before_blue] = nums[before_blue], nums[after_white]
+                before_blue -= 1
         return nums
 
     def test_sort(self):

@@ -12,22 +12,19 @@ class SpiralOrder(unittest.TestCase):
         :type matrix: List[List[int]]
         :rtype: List[int]
         """
-        rows, cols = len(matrix[0]), len(matrix)
-        row, col, d_row, d_col = 0, 0, 1, 0
-        ans = []
+        rows, cols = len(matrix), len(matrix[0])
+        row, col, row_dir, col_dir, ans = 0, 0, 0, 1, []
+        VISITED = '*'
 
-        for _ in range(cols * rows):
-            ans.append(matrix[col][row])
-            matrix[col][row] = "*"
+        for _ in range(rows*cols):
+            ans.append(matrix[row][col])
+            matrix[row][col] = VISITED
 
-            # Check next cell to determine whether to keep going or rotate
-            if (not 0 <= row + d_row < rows  # row out of bounds
-                    or not 0 <= col + d_col < cols  # col out of bounds
-                    or matrix[col + d_col][row + d_row] == "*"):  # next cell is already visited
-                d_row, d_col = -d_col, d_row  # change direction
+            new_row, new_col = row + row_dir, col + col_dir
+            if (not 0 <= new_row < rows or not 0 <= new_col < cols or matrix[new_row][new_col] == VISITED):
+                row_dir, col_dir = col_dir, -row_dir
 
-            row, col = row + d_row, col + d_col  # move to next cell
-
+            row, col = row + row_dir, col + col_dir
         return ans
 
 

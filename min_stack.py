@@ -24,6 +24,7 @@ class MinStack(unittest.TestCase):
         :type val: int
         :rtype: None
         """
+        # whenever we push to stack we add a tuple(value, min value of the stack)
         self.stack.append((val, min(self.getMin(), val)))
         return
 
@@ -31,6 +32,8 @@ class MinStack(unittest.TestCase):
         """
         :rtype: None
         """
+        # even if we pop the current min val, the last element in the stack before it will have the previous min val
+        # which now becomes the current min val again
         self.stack.pop()
         return
 
@@ -38,6 +41,7 @@ class MinStack(unittest.TestCase):
         """
         :rtype: int
         """
+        # get the element 0 from the last element on the stack
         if self.stack:
             return self.stack[-1][0]
         return self.DEFAULT
@@ -46,6 +50,7 @@ class MinStack(unittest.TestCase):
         """
         :rtype: int
         """
+        # we can always get the min value contained in the stack by checking element 1 of the last element on the stack
         if self.stack:
             return self.stack[-1][1]
         return self.DEFAULT
