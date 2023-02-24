@@ -33,7 +33,7 @@ class FindAnagrams(unittest.TestCase):
             char_freqs[char] += 1
         # print("\nAFTER P {}".format(str(char_freqs)))
 
-        # initial pass over the window, except last element which we will pass over later
+        # initial pass through window, except last element which we will check when we slide window through s
         for i in range(len_p - 1):
             if s[i] in char_freqs:
                 char_freqs[s[i]] -= 1

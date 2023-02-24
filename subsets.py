@@ -30,9 +30,10 @@ class Subsets(unittest.TestCase):
         return ret
 
     def dfs(self, nums, path, ret):
+        print("ADDED {} TO RET".format(str(path)))
         ret.append(path)
         for i in range(len(nums)):
-            print("I " + str(i) + str(ret))
+            print("I {} NUMS {} NEW PATH {} OLD RET {}".format(str(i), str(nums[i + 1:]), str(path + [nums[i]]), str(ret)))
             self.dfs(nums[i + 1:], path + [nums[i]], ret)
 
 
@@ -41,13 +42,30 @@ class Subsets(unittest.TestCase):
         output = [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
         self.assertEqual(sorted(self.subsets_iterative(input)), sorted(output))
 
-    # def test_sub_recursive(self):
-    #     input = [1, 2, 3]
-    #     output = [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
-    #     self.assertEqual(sorted(self.subsets_recursive(input)), sorted(output))
+    def test_sub_recursive(self):
+        input = [1, 2, 3]
+        output = [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+        self.assertEqual(sorted(self.subsets_recursive(input)), sorted(output))
 
 # ITERATIVE LOGGING
 # [[]]
 # [[], [1]]
 # [[], [1], [2], [1, 2]]
 # [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+
+# RECURSIVE LOGGING
+# ADDED [] TO RET
+# I 0 NUMS [2, 3] NEW PATH [1] OLD RET [[]]
+# ADDED [1] TO RET
+# I 0 NUMS [3] NEW PATH [1, 2] OLD RET [[], [1]]
+# ADDED [1, 2] TO RET
+# I 0 NUMS [] NEW PATH [1, 2, 3] OLD RET [[], [1], [1, 2]]
+# ADDED [1, 2, 3] TO RET
+# I 1 NUMS [] NEW PATH [1, 3] OLD RET [[], [1], [1, 2], [1, 2, 3]]
+# ADDED [1, 3] TO RET
+# I 1 NUMS [3] NEW PATH [2] OLD RET [[], [1], [1, 2], [1, 2, 3], [1, 3]]
+# ADDED [2] TO RET
+# I 0 NUMS [] NEW PATH [2, 3] OLD RET [[], [1], [1, 2], [1, 2, 3], [1, 3], [2]]
+# ADDED [2, 3] TO RET
+# I 2 NUMS [] NEW PATH [3] OLD RET [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3]]
+# ADDED [3] TO RET
