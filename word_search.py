@@ -17,14 +17,18 @@ class SolWordSearch(unittest.TestCase):
         for row in range(len(board)):
             for col in range(len(board[0])):
                 if self.dfs(board, row, col, word):
+                    print("RESTORED BOARD")
+                    self.print_board(board)
                     return True
+        print("RESTORED BOARD")
+        self.print_board(board)
         return False
 
     # check whether we can find word, start at (row,col) position
     def dfs(self, board, row, col, word):
-        print("\n")
-        print("MAKING CALL FOR WORD {}".format(word))
-        self.print_board(board)
+        # print("\n")
+        # print("MAKING CALL FOR WORD {}".format(word))
+        # self.print_board(board)
         if len(word) == 0: # all the characters are checked
             return True
         if row < 0 or row >= len(board) or col < 0 or col >= len(board[0]) or word[0] != board[row][col]:
@@ -37,8 +41,9 @@ class SolWordSearch(unittest.TestCase):
         # check whether we can find decreasing length of remaining word
         # even though calls to dfs in 4 directions can be made we only make the calls until 1 call returns true
         # skip the remaining calls for the other directions in this iteration of checking res
-        res = self.dfs(board, row + 1, col, word[1:]) or self.dfs(board, row - 1, col, word[1:]) \
-              or self.dfs(board, row, col + 1, word[1:]) or self.dfs(board, row, col - 1, word[1:])
+        target = word[1:]
+        res = self.dfs(board, row + 1, col, target) or self.dfs(board, row - 1, col, target) \
+              or self.dfs(board, row, col + 1, target) or self.dfs(board, row, col - 1, target)
         # unmark cell to restore board
         print("UNMARKING CELL")
         board[row][col] = tmp
