@@ -38,14 +38,14 @@ class Subsets(unittest.TestCase):
 
 
     def test_sub_iter(self):
-        input = [1, 2, 3]
+        input_list = [1, 2, 3]
         output = [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
-        self.assertEqual(sorted(self.subsets_iterative(input)), sorted(output))
+        self.assertEqual(sorted(self.subsets_iterative(input_list)), sorted(output))
 
     def test_sub_recursive(self):
-        input = [1, 2, 3]
+        input_list = [1, 2, 3]
         output = [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
-        self.assertEqual(sorted(self.subsets_recursive(input)), sorted(output))
+        self.assertEqual(sorted(self.subsets_recursive(input_list)), sorted(output))
 
 # ITERATIVE LOGGING
 # [[]]

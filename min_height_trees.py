@@ -65,10 +65,9 @@ class FindMinHeightTrees(unittest.TestCase):
 
             # leave nodes removal
             for leaf in leave_nodes:
-                print("CHECKING LEAF {}".format(leaf))
-
+                print("GETTING LEAF's ONLY NEIGHBOR {}".format(leaf))
                 neighbor = adj_matrix[leaf].pop()
-                print("REMOVING LEAF {} FROM NEIGHBOR {}".format(leaf, neighbor))
+                print("REMOVING LEAF {} FROM {}'s LIST OF NEIGHBORS".format(leaf, neighbor))
                 adj_matrix[neighbor].remove(leaf)
 
 

@@ -29,15 +29,12 @@ class LadderLength(unittest.TestCase):
         queue = collections.deque([[begin_word, 1]])
         while queue:
             word, length = queue.popleft()
-            print("\nWORD: {} LEN: {}".format(word, length))
             if word == end_word:
                 return length
             for i in range(len(word)):
                 for c in char_set:
                     next_word = word[:i] + c + word[i+1:]
-                    print("CHECKING {}".format(next_word))
                     if next_word in word_list:
-                        print("REMOVED {}".format(next_word))
                         word_list.remove(next_word)
                         queue.append([next_word, length + 1])
         return 0

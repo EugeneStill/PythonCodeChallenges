@@ -21,26 +21,22 @@ class TrappingRainWater(unittest.TestCase):
 
         ans, left, right = 0, 1, len(height) - 1
         lmax, rmax = height[0], height[-1]
-        # print("\n")
+        print("\n")
         while left <= right:
-            # check lmax and rmax for current right, left positions
-            if height[left] > lmax:
-                lmax = height[left]
-            if height[right] > rmax:
-                rmax = height[right]
-            # print("LEFT {} LMAX {} RMAX {} RIGHT {}".format(left, lmax, rmax, right))
+            lmax = max(lmax, height[left])
+            rmax = max(rmax, height[right])
 
-            # fill water upto lmax level for index left and move left to the right
+            # fill water up to lmax level for index left and move left to the right
             if lmax <= rmax:
                 ans += lmax - height[left]
+                print("ANS {} LMAX {} LEFT {} RMAX {} RIGHT {} MOVING LEFT=>".format(ans, lmax, left, rmax, right))
                 left += 1
-                # print("MOVING LEFT.  ANS {}".format(ans))
 
-            # fill water upto rmax level for index right and move right to the left
+            # fill water up to rmax level for index right and move right to the left
             else:
                 ans += rmax - height[right]
+                print("ANS {} LMAX {} LEFT {} RMAX {} RIGHT {} <= MOVING RIGHT.".format(ans, lmax, left, rmax, right))
                 right -= 1
-                # print("MOVING RIGHT.  ANS {}".format(ans))
 
         return ans
 
@@ -51,25 +47,14 @@ class TrappingRainWater(unittest.TestCase):
 
 
 # LOGGING
-# LEFT 1 LMAX 1 RMAX 1 RIGHT 11
-# MOVING LEFT.  ANS 0
-# LEFT 2 LMAX 1 RMAX 1 RIGHT 11
-# MOVING LEFT.  ANS 1
-# LEFT 3 LMAX 2 RMAX 1 RIGHT 11
-# MOVING RIGHT.  ANS 1
-# LEFT 3 LMAX 2 RMAX 2 RIGHT 10
-# MOVING LEFT.  ANS 1
-# LEFT 4 LMAX 2 RMAX 2 RIGHT 10
-# MOVING LEFT.  ANS 2
-# LEFT 5 LMAX 2 RMAX 2 RIGHT 10
-# MOVING LEFT.  ANS 4
-# LEFT 6 LMAX 2 RMAX 2 RIGHT 10
-# MOVING LEFT.  ANS 5
-# LEFT 7 LMAX 3 RMAX 2 RIGHT 10
-# MOVING RIGHT.  ANS 5
-# LEFT 7 LMAX 3 RMAX 2 RIGHT 9
-# MOVING RIGHT.  ANS 6
-# LEFT 7 LMAX 3 RMAX 2 RIGHT 8
-# MOVING RIGHT.  ANS 6
-# LEFT 7 LMAX 3 RMAX 3 RIGHT 7
-# MOVING LEFT.  ANS 6
+# ANS 0 LMAX 1 LEFT 1 RMAX 1 RIGHT 11 MOVING LEFT=>
+# ANS 1 LMAX 1 LEFT 2 RMAX 1 RIGHT 11 MOVING LEFT=>
+# ANS 1 LMAX 2 LEFT 3 RMAX 1 RIGHT 11 <= MOVING RIGHT.
+# ANS 1 LMAX 2 LEFT 3 RMAX 2 RIGHT 10 MOVING LEFT=>
+# ANS 2 LMAX 2 LEFT 4 RMAX 2 RIGHT 10 MOVING LEFT=>
+# ANS 4 LMAX 2 LEFT 5 RMAX 2 RIGHT 10 MOVING LEFT=>
+# ANS 5 LMAX 2 LEFT 6 RMAX 2 RIGHT 10 MOVING LEFT=>
+# ANS 5 LMAX 3 LEFT 7 RMAX 2 RIGHT 10 <= MOVING RIGHT.
+# ANS 6 LMAX 3 LEFT 7 RMAX 2 RIGHT 9 <= MOVING RIGHT.
+# ANS 6 LMAX 3 LEFT 7 RMAX 2 RIGHT 8 <= MOVING RIGHT.
+# ANS 6 LMAX 3 LEFT 7 RMAX 3 RIGHT 7 MOVING LEFT=>

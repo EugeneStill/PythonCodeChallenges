@@ -63,13 +63,13 @@ class InvertTree(unittest.TestCase):
             return None
 
     def test_inversion(self):
-        input = [4,2,7,1,3,6,9]
+        input_list = [4,2,7,1,3,6,9]
         bt1 = binary_tree.BST()
         bt2 = binary_tree.BST()
         bt3 = binary_tree.BST()
-        bt1.insert_level(input, 0, 7)
-        bt2.insert_level(input, 0, 7)
-        bt3.insert_level(input, 0, 7)
+        bt1.insert_level(input_list, 0, 7)
+        bt2.insert_level(input_list, 0, 7)
+        bt3.insert_level(input_list, 0, 7)
         self.invert_tree_recursion(bt1.root)
         self.invert_tree_bfs(bt2.root)
         self.invert_tree_bfs(bt3.root)

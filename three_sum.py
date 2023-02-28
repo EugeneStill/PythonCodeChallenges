@@ -43,6 +43,6 @@ class ThreeSum(unittest.TestCase):
         return result
 
     def test_three_sum(self):
-        input = [-1,0,1,2,-1,-4]
+        input_list = [-1,0,1,2,-1,-4]
         output = [[-1,-1,2],[-1,0,1]]
-        self.assertEqual(self.three_sum(input), output)
+        self.assertEqual(self.three_sum(input_list), output)
