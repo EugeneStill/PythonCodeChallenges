@@ -62,10 +62,10 @@ class QuickSort(unittest.TestCase):
 
 
     def test_quick_sort(self):
-        input = [1, 7, 4, 1, 10, 9, -2]
+        input_list = [1, 7, 4, 1, 10, 9, -2]
         output = [-2, 1, 1, 4, 7, 9, 10]
-        print("\n" + str(input))
-        self.assertEqual(self.quick_sort(input, 0, 6), output)
+        print("\n" + str(input_list))
+        self.assertEqual(self.quick_sort(input_list, 0, 6), output)
 
 
 

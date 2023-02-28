@@ -33,7 +33,7 @@ class MaxArea(unittest.TestCase):
         return water
 
     def test_max_area(self):
-        input = [1, 8, 6, 2, 5, 4, 8, 3, 7]
+        input_list = [1, 8, 6, 2, 5, 4, 8, 3, 7]
         output = 49
-        self.assertEqual(self.max_area(input), output)
+        self.assertEqual(self.max_area(input_list), output)
 

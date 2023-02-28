@@ -23,11 +23,13 @@ class LeastInterval(unittest.TestCase):
             heappush(pq, (-1*task_count, task))
         print("\n{}".format(str(pq)))
         while pq:
-            completed_task_count, temp = 0, []
+            pass_completions, temp = 0, []
             # for each while loop complete n time units
-            while completed_task_count <= n:
-                print("\nADDING TIME UNIT FOR {} COMPLETED TASKS".format(completed_task_count))
+            while pass_completions <= n:
+                print("\nADDING TIME UNIT FOR {} COMPLETED TASKS".format(pass_completions))
                 time_units += 1
+                # we only add tasks back to pq outside of each pass completion
+                # so we won't ever run the same task in the same pass
                 if pq:
                     # heap pop will pop the smallest number of tasks
                     # since we're using negative numbers that is the task with highest count remaining
@@ -42,18 +44,19 @@ class LeastInterval(unittest.TestCase):
                 # completed task could be an actual task or an idle unit of time
                 elif not temp:
                     print("NO TEMP. COMPLETED 1 TASK")
-                    completed_task_count += 1
+                    pass_completions += 1
                 else:
                     print("NO PQ, COMPLETED 1 TASK")
-                    completed_task_count += 1
-            # after each while loop, push any temp items to pq
+                    pass_completions += 1
+            # after each while loop, add any tasks from temp back to pq with latest task count
             for item in temp:
                 print("PUSHING {} TO PQ".format(str(item)))
                 heappush(pq, item)
         return time_units
 
     def test_task_scheduler(self):
-        self.least_interval(["A","A","A","A","A","A","B","C","D","E","F","G"], 2)
+        # self.least_interval(["A","A","A","A","A","A","B","C","D","E","F","G"], 2)
+        self.least_interval(["A","A","A","B","B","B"], 0)
 
 # LOGGING
 # [(-6, 'A'), (-1, 'B'), (-1, 'C'), (-1, 'D'), (-1, 'E'), (-1, 'F'), (-1, 'G')]

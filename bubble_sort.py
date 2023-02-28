@@ -27,9 +27,9 @@ class bubbleSort(unittest.TestCase):
         return nums
 
     def test_bubble_sort(self):
-        input = [14, 46, 43, 27, 57, 41, 45, 21, 70, 4, 2]
+        input_list = [14, 46, 43, 27, 57, 41, 45, 21, 70, 4, 2]
         output = [2, 4, 14, 21, 27, 41, 43, 45, 46, 57, 70]
-        self.assertEqual(self.bubble_sort(input), output)
+        self.assertEqual(self.bubble_sort(input_list), output)
 
 
 # LOGGING

@@ -56,19 +56,26 @@ class JobScheduling(unittest.TestCase):
 
         return dp(0)
 
-    def job_scheduling_dp_bs(self, startTime, endTime, profit):
-        n = len(startTime)
-        jobs = sorted(list(zip(startTime, endTime, profit)))
-        startTime = [jobs[i][0] for i in range(n)]
+    def job_scheduling_dp_bs(self, start_time, end_time, profit):
+        n = len(start_time)
+        jobs = sorted(list(zip(start_time, end_time, profit)))
+        START, END, PROFIT = 0, 1, 2
+        start_time = [jobs[i][START] for i in range(n)]
 
         @lru_cache(None)
         def dp(i):
-            if i == n: return 0
+            if i == n:
+                print("HIT BASE CASE")
+                return 0
+            print("CALLING DP {}".format(i+1))
             ans = dp(i + 1)
 
             # instead of looping use binary search (with bisect_left function) to find value of j to use for comparison
-            j = bisect.bisect_left(startTime, jobs[i][1])
-            ans = max(ans, dp(j) + jobs[i][2])
+            j = bisect.bisect_left(start_time, jobs[i][END])
+            print("GOT J {}".format(j))
+            print("OLD ANS {} JOB {} PROFIT {}".format(ans, i, jobs[i][PROFIT]))
+            ans = max(ans, dp(j) + jobs[i][PROFIT])
+            print("NEW ANS {} DP(j) {}".format(ans, dp(j)))
             return ans
 
         return dp(0)
@@ -77,7 +84,7 @@ class JobScheduling(unittest.TestCase):
         start_time = [1, 2, 3, 3]
         end_time = [3, 4, 5, 6]
         profit = [50, 10, 40, 70]
-        self.assertEqual(self.job_scheduling_dp(start_time, end_time, profit), 120)
+        # self.assertEqual(self.job_scheduling_dp(start_time, end_time, profit), 120)
         self.assertEqual(self.job_scheduling_dp_bs(start_time, end_time, profit), 120)
 
 

@@ -31,8 +31,8 @@ class RightSideView(unittest.TestCase):
         return res
 
     def test_rsv(self):
-        input = [1, 2, 3, None, 5, None, 4]
+        level_input = [1, 2, 3, None, 5, None, 4]
         output = [1, 3, 4]
         bt = binary_tree.BST()
-        bt.build_binary_tree(input)
+        bt.build_binary_tree(level_input)
         self.assertEqual(self.right_side_view(bt.root), output)

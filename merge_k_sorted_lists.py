@@ -35,20 +35,40 @@ class MergeKLists(unittest.TestCase):
         :type lists: List[ListNode]
         :rtype: ListNode
         """
-        k = len(lists)
-        q = PriorityQueue(maxsize=k)
-        dummy = ListNode(None)
-        curr = dummy
-        for list_idx, node in enumerate(lists):
-            if node:
-                q.put((node.val, list_idx, node))
-        while q.qsize() > 0:
-            popped = q.get()
-            curr.next, list_idx = popped[2], popped[1]
-            curr = curr.next
-            if curr.next:
-                q.put((curr.next.val, list_idx, curr.next))
+        if not lists:
+            return None
+        if len(lists) == 1:
+            return lists[0]
+        mid = len(lists) // 2
+        l, r = self.merge_k_lists(lists[:mid]), self.merge_k_lists(lists[mid:])
+        return self.merge(l, r)
+
+    def merge(self, l, r):
+        dummy = p = ListNode()
+        while l and r:
+            if l.val < r.val:
+                p.next = l
+                l = l.next
+            else:
+                p.next = r
+                r = r.next
+            p = p.next
+        p.next = l or r
         return dummy.next
+        # k = len(lists)
+        # q = PriorityQueue(maxsize=k)
+        # dummy = ListNode(None)
+        # curr = dummy
+        # for list_idx, node in enumerate(lists):
+        #     if node:
+        #         q.put((node.val, list_idx, node))
+        # while q.qsize() > 0:
+        #     popped = q.get()
+        #     curr.next, list_idx = popped[2], popped[1]
+        #     curr = curr.next
+        #     if curr.next:
+        #         q.put((curr.next.val, list_idx, curr.next))
+        # return dummy.next
 
     def test_mkl(self):
         l1 = [1,4,5]

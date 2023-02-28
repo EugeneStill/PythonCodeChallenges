@@ -50,6 +50,6 @@ class GameOfLife(unittest.TestCase):
         return board
 
     def test_gol(self):
-        input = [[0, 1, 0], [0, 0, 1], [1, 1, 1], [0, 0, 0]]
+        input_list = [[0, 1, 0], [0, 0, 1], [1, 1, 1], [0, 0, 0]]
         output = [[0, 0, 0], [1, 0, 1], [0, 1, 1], [0, 1, 0]]
-        self.assertEqual(self.game_of_life(input), output)
+        self.assertEqual(self.game_of_life(input_list), output)

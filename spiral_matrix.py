@@ -29,7 +29,7 @@ class SpiralOrder(unittest.TestCase):
 
 
     def test_spiral(self):
-        input = [[1,2,3],[4,5,6],[7,8,9]]
+        input_list = [[1,2,3],[4,5,6],[7,8,9]]
         output = [1,2,3,6,9,8,7,4,5]
-        self.assertEqual(self.spiral_order(input), output)
+        self.assertEqual(self.spiral_order(input_list), output)
 

@@ -26,13 +26,12 @@ class MedianFinder():
 
     def add_num(self, num):
         # add num to appropriate heap
-        if not self.lo:
-            hq.heappush(self.lo, -num)
-        elif num <= -self.lo[0]:
+        if not self.lo or num <= -self.lo[0]:
             hq.heappush(self.lo, -num)
         else:
             hq.heappush(self.hi, num)
         # rebalance so that lo is always equal to or 1 longer than hi
+        # since we return lo[0] if there are an odd number of nums, we want lo to be longer than hi in odd scenario
         if len(self.lo) > len(self.hi) + 1:
             hq.heappush(self.hi, -hq.heappop(self.lo))
         elif len(self.hi) > len(self.lo):

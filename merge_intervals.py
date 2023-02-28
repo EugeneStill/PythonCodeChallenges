@@ -23,9 +23,9 @@ class MergeIntervals(unittest.TestCase):
         return result
 
     def test_mi(self):
-        input = [[1,3],[2,6],[8,10],[15,18]]
+        input_list = [[1,3],[2,6],[8,10],[15,18]]
         output = [[1,6],[8,10],[15,18]]
-        self.assertEqual(self.merge_intervals(input), output)
-        input = [[1,3],[0,6]]
+        self.assertEqual(self.merge_intervals(input_list), output)
+        input_list = [[1,3],[0,6]]
         output = [[0,6]]
-        self.assertEqual(self.merge_intervals(input), output)
+        self.assertEqual(self.merge_intervals(input_list), output)

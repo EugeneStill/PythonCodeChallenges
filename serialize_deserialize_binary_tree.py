@@ -7,7 +7,7 @@ class TreeNode(object):
         self.left = None
         self.right = None
 
-class Codec(unittest.TestCase):
+class Codec():
     """
     Serialization is the process of converting a data structure or object into a sequence of bits so that it can be
     stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later
@@ -22,32 +22,53 @@ class Codec(unittest.TestCase):
     Output: [1,2,3,null,null,4,5]
     """
     def serialize(self, root):
-        def doit(node):
+        def build_list(node):
             if node:
                 vals.append(str(node.val))
-                doit(node.left)
-                doit(node.right)
+                build_list(node.left)
+                build_list(node.right)
             else:
                 vals.append('#')
         vals = []
-        doit(root)
+        build_list(root)
         return ' '.join(vals)
 
     def deserialize(self, data):
-        def doit():
+        def build_tree(side):
             val = next(vals)
+            print("PARSING {} FOR {} SIDE".format(val, side))
             if val == '#':
                 return None
             node = TreeNode(int(val))
-            node.left = doit()
-            node.right = doit()
+            node.left = build_tree("LEFT")
+            node.right = build_tree("RIGHT")
             return node
         vals = iter(data.split())
-        return doit()
+        return build_tree("ROOT")
 
 
+class TestSerDer(unittest.TestCase):
+    def get_tree_list(self, tree_node, order="preorder"):
+        def parse_tree(tree_node, order):
+            if order == "preorder":
+                list_output.append(tree_node.val)
+            if tree_node.left is not None:
+                parse_tree(tree_node.left, order)
+            if order == "inorder":
+                list_output.append(tree_node.val)
+            if tree_node.right is not None:
+                parse_tree(tree_node.right, order)
+            if order == "postorder":
+                list_output.append(tree_node.val)
+        list_output = []
+        parse_tree(tree_node, order)
+        return list_output
 
-# Your Codec object will be instantiated and called as such:
-# ser = Codec()
-# deser = Codec()
-# ans = deser.deserialize(ser.serialize(root))
+    def test_ser_der(self):
+        root = [1,2,3,None,None,4,5]
+        bt = binary_tree.BST()
+        bt.build_binary_tree(root)
+        ser = Codec()
+        deser = Codec()
+        ans = deser.deserialize(ser.serialize(bt.root))
+        self.assertEqual(self.get_tree_list(ans), self.get_tree_list(bt.root))
