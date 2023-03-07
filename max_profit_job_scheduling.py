@@ -56,27 +56,58 @@ class JobScheduling(unittest.TestCase):
 
         return dp(0)
 
+    # def job_scheduling_dp_bs(self, start_time, end_time, profit):
+    #     n = len(start_time)
+    #     jobs = sorted(list(zip(start_time, end_time, profit)))
+    #     START, END, PROFIT = 0, 1, 2
+    #     start_time = [jobs[i][START] for i in range(n)]
+    #
+    #     @lru_cache(None)
+    #     def dp(i):
+    #         if i == n:
+    #             print("HIT BASE CASE")
+    #             return 0
+    #         print("CALLING DP {}".format(i+1))
+    #         ans = dp(i + 1)
+    #
+    #         # instead of looping use binary search (with bisect_left function) to find value of j to use for comparison
+    #         j = bisect.bisect_left(start_time, jobs[i][END])
+    #         print("GOT J {}".format(j))
+    #         print("OLD ANS {} JOB {} PROFIT {}".format(ans, i, jobs[i][PROFIT]))
+    #         ans = max(ans, dp(j) + jobs[i][PROFIT])
+    #         print("NEW ANS {} DP(j) {}".format(ans, dp(j)))
+    #         return ans
+    #
+    #     return dp(0)
+
     def job_scheduling_dp_bs(self, start_time, end_time, profit):
         n = len(start_time)
         jobs = sorted(list(zip(start_time, end_time, profit)))
         START, END, PROFIT = 0, 1, 2
-        start_time = [jobs[i][START] for i in range(n)]
-
-        @lru_cache(None)
+        start_time = start_time = [j[START] for j in jobs]
+        mem = {}
         def dp(i):
+
             if i == n:
                 print("HIT BASE CASE")
                 return 0
             print("CALLING DP {}".format(i+1))
-            ans = dp(i + 1)
+            if i in mem:
+                print("GOT I FROM MEM")
+                return mem[i]
+            print("CALLING DP {}".format(i + 1))
+            # since we work backward from base case (which is 0 bc its past end of list of jobs)
+            # then we can use our base answer for comparison as dp(i+1), the job after i
+            # so when we get to the last job at the end of the list, the answer of i+1 (outside list) will be zero
+            ans = mem.get(i+1, dp(i+1))
 
             # instead of looping use binary search (with bisect_left function) to find value of j to use for comparison
+            # j is first job that starts after/at same time as end of job i
             j = bisect.bisect_left(start_time, jobs[i][END])
-            print("GOT J {}".format(j))
-            print("OLD ANS {} JOB {} PROFIT {}".format(ans, i, jobs[i][PROFIT]))
-            ans = max(ans, dp(j) + jobs[i][PROFIT])
-            print("NEW ANS {} DP(j) {}".format(ans, dp(j)))
-            return ans
+            dp_j = mem.get(j, dp(j))
+            # see if dp_j + profit of job i > current ans
+            mem[i] = max(ans, dp_j + jobs[i][PROFIT])
+            return mem[i]
 
         return dp(0)
 
