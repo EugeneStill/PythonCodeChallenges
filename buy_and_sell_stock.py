@@ -10,13 +10,9 @@ class MaxProfit(unittest.TestCase):
         buy_price = prices[0]
         profit = 0
 
-        for i in range(1, len(prices)):
-            # update buy price if  current price i< previous buy price
-            if prices[i] < buy_price:
-                buy_price = prices[i]
-            # else compare the previous profit with the current profit
-            else:
-                profit = max(profit, prices[i] - buy_price)
+        for i, price in enumerate(prices):
+            buy_price = min(price, buy_price)
+            profit = max(profit, price-buy_price)
         return profit
 
     def test_profit(self):

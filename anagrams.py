@@ -1,4 +1,5 @@
 import unittest
+import collections
 
 
 class Anagrams(unittest.TestCase):
@@ -14,13 +15,17 @@ class Anagrams(unittest.TestCase):
         :type t: str
         :rtype: bool
         """
-        dic1 = {}
-        dic2 = {}
-        for item in s:
-            dic1[item] = dic1.get(item, 0) + 1
-        for item in t:
-            dic2[item] = dic2.get(item, 0) + 1
-        return dic1 == dic2
+        if len(s) != len(t):
+            return False
+
+        dic_s = collections.defaultdict(int)
+        dic_t = collections.defaultdict(int)
+
+        for i in range(len(s)):
+            dic_s[s[i]] += 1
+            dic_t[t[i]] += 1
+
+        return dic_s == dic_t
 
     def test_anagram(self):
         self.assertTrue(self.is_anagram("racecar", "carrace"))
