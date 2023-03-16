@@ -13,6 +13,10 @@ class MajorityElement(unittest.TestCase):
         :type nums: List[int]
         :rtype: int
         """
+        # alt solution
+        # nums.sort()
+        # return nums[len(nums)//2]
+
         majority = len(nums) / 2
         dic = {}
         for n in nums:

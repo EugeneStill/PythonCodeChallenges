@@ -11,20 +11,16 @@ class DiameterOfBinaryTree(unittest.TestCase):
     The length of a path between two nodes is represented by the number of edges between them.
     """
     def diameter_of_binary_tree(self, root):
-        result = [0]  # Global result variable
-        self.find_diameter(root, result)
-        return result[0]
-
-    def find_diameter(self, root, result):
-        if not root:
-            return 0
-
-        left = self.find_diameter(root.left, result)
-        right = self.find_diameter(root.right, result)
-
-        result[0] = max(result[0], left + right)
-
-        return max(left, right) + 1
+        self.best = 0
+        def depth(root):
+            if not root:
+                return 0
+            ans_left = depth(root.left)
+            ans_right = depth(root.right)
+            self.best = max(self.best, ans_left + ans_right)
+            return 1 + max(ans_left, ans_right)
+        depth(root)
+        return self.best
 
     def test_diameter(self):
         bt = binary_tree.BST()

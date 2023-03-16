@@ -26,7 +26,7 @@ class LLReverse(unittest.TestCase):
         return node
 
 
-    def test_is_ll_odd(self):
+    def test_reverse_ll(self):
         input_list = [1, 2, 3, 4, 5]
         ll = linked_list.LinkedList()
         ll.create_linked_list(input_list)
