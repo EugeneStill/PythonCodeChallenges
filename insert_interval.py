@@ -22,23 +22,24 @@ class InsertInterval(unittest.TestCase):
         :type new_interval: List[int]
         :rtype: List[List[int]]
         """
-
-        s, e = new_interval[0], new_interval[1]
-        left, right, new = [], [], []
         # get 3 lists of intervals:
         # 1 all intervals that end before new interval start
         # 2 all intervals that start after new interval end
         # 3 the new interval that could include any existing intervals that end after ni start or start before ni end
+        START, END = 0, 1
+        left, right, insert = [], [], []
+        insert_start, insert_end = new_interval[START], new_interval[END]
+
         for i in intervals:
-            if i[1] < s:
+            if i[END] < insert_start:
                 left.append(i)
-            elif i[0] > e:
+            elif i[START] > insert_end:
                 right.append(i)
             else:
-                s = min(s, i[0])
-                e = max(e, i[1])
-        new.append([s, e])
-        return left + new + right
+                insert_start = min(insert_start, i[START])
+                insert_end = max(insert_end, i[END])
+        insert.append([insert_start, insert_end])
+        return left + insert + right
 
 
     def test_insert(self):

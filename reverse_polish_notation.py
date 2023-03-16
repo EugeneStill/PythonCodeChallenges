@@ -17,21 +17,23 @@ class ReversePolishNotation(unittest.TestCase):
         :type tokens: List[str]
         :rtype: int
         """
-        stack = []
         ops = {
             '+': operator.add,
             '-': operator.sub,
             '*': operator.mul,
-            '/': operator.truediv
+            '/': 'custom'
         }
+
+        stack = []
+
         for t in tokens:
             if t not in ops:
                 stack.append(int(t))
-            elif t == '/':
-                r, l = stack.pop(), stack.pop()
-                stack.append(int(float(l)/r))
+                continue
+            r, l = stack.pop(), stack.pop()
+            if t == '/':
+                stack.append(int(l/r))
             else:
-                r, l = stack.pop(), stack.pop()
                 stack.append(ops[t](l, r))
         return stack.pop()
 
