@@ -27,37 +27,29 @@ class MyAtoi(unittest.TestCase):
         :type s: str
         :rtype: int
         """
-        MAX_NUM = 2 ** 31 - 1  # 2147483647 (8 is why we check curr_digit > 7 below)
-        MIN_NUM = -2 ** 31
+        MAX_NUM = 2 ** 31 - 1
+        MIN_NUM = -MAX_NUM - 1
+        MAX_DIGIT = MAX_NUM % 10
 
-        # trim the leading white space first
+        i, num, sign = 0, 0, 1
+
         s = s.strip()
-        sign = 1
-        index = 0
-        num = 0
         if not s:
             return num
 
-        if s[0] == '-':
+        if s[0] == "-":
             sign = -1
-            index += 1
-        elif s[0] == '+':
-            index += 1
+            i += 1
+        elif s[0] == "+":
+            i += 1
 
-        while index < len(s) and s[index].isdigit():
-            curr_digit = int(s[index])
-            # could use ord instead of int
-            # curr_digit = ord(s[index]) - ord('0')  # use ord 0 to get expected int value
-            # ('0', 48), ('1', 49), ('2', 50), ('3', 51), ('4', 52),
-            # ('5', 53), ('6', 54), ('7', 55), ('8', 56), ('9', 57)
-
-            if num > MAX_NUM // 10 or (num == MAX_NUM // 10 and curr_digit > 7):
+        while i < len(s) and s[i].isdigit():
+            curr_digit = int(s[i])
+            if num > MAX_NUM // 10 or (num == MAX_NUM // 10 and curr_digit > MAX_DIGIT):
                 return MAX_NUM if sign == 1 else MIN_NUM
             num = num * 10 + curr_digit
-            index += 1
-
-        num = sign * num
-        return num
+            i += 1
+        return num * sign
 
     def test_string_to_num(self):
         self.assertEqual(self.my_atoi("-42"), -42)
