@@ -24,17 +24,29 @@ class Subsets(unittest.TestCase):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        ret = []
-        print("\n")
-        self.dfs(nums, [], ret)
-        return ret
+        res = []
+        self.dfs(nums, [], 0, res)
+        return res
 
-    def dfs(self, nums, path, ret):
-        print("ADDED {} TO RET".format(str(path)))
-        ret.append(path)
-        for i in range(len(nums)):
-            print("I {} NUMS {} NEW PATH {} OLD RET {}".format(str(i), str(nums[i + 1:]), str(path + [nums[i]]), str(ret)))
-            self.dfs(nums[i + 1:], path + [nums[i]], ret)
+    def dfs(self, nums, path, start, res):
+        # use [:] to create shallow copy of path
+        res.append(path[:])
+        # we use start to decrease the number of subsets being generated
+        for i in range(start, len(nums)):
+            # add nums[i] to path here
+            path.append(nums[i])
+            self.dfs(nums, path, i + 1, res)
+            # pop the num from path to backtrack to previous state
+            path.pop()
+
+
+# The path.pop() method is being called to backtrack to the previous state of the path list,
+# after a valid subset has been generated.
+#
+# In the dfs function, we add elements to path to generate the current subset,
+# and then recursively call dfs to generate the next subset.
+# Once all valid subsets have been generated from the current state of path,
+# we need to backtrack to the previous state of path to generate more subsets.
 
 
     def test_sub_iter(self):
