@@ -64,8 +64,8 @@ class Calculate(unittest.TestCase):
     def test_calc(self):
         # num = "(1*(4+5+2)-3)+(6+8)+(5+7)"
         # output = 34
-        num = "2+4*3"
-        output = 14
+        num = "14-3/2"
+        output = 13
         self.assertEqual(self.calculate(num), output)
 
 # LOGGING
