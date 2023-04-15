@@ -12,17 +12,18 @@ class AddBinary(unittest.TestCase):
         :type b: str
         :rtype: str
         """
-        rem, res, a, b = 0, "", list(a), list(b)
+        rem, res = 0, ""
+        i, j = len(a) - 1, len(b) - 1
 
-        while a or b:
-            if a:
-                rem += int(a.pop())
-            if b:
-                rem += int(b.pop())
+        while i >= 0 or j >= 0 or rem > 0:
+            if i >= 0:
+                rem += int(a[i])
+                i -= 1
+            if j >= 0:
+                rem += int(b[j])
+                j -= 1
             res = str(rem % 2) + res
             rem = rem // 2
-        if rem == 1:
-            res = str(rem) + res
         return res
 
     def test_binary_add(self):
