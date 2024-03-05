@@ -24,51 +24,31 @@ class MergeKLists(unittest.TestCase):
     ]
     merging them into one sorted list:
     1->1->2->3->4->4->5->6
-
-    In code below: In case same val appears in more than 1 list, we added idx value as comparator
-    Since the queue module compares the 2nd element in the popped result we don't want a ListNode object to be 2nd
-    (ListNode is not a comparable type).
     """
 
-    def merge_k_lists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
-        if not lists:
-            return None
-        if len(lists) == 1:
-            return lists[0]
-        mid = len(lists) // 2
-        l, r = self.merge_k_lists(lists[:mid]), self.merge_k_lists(lists[mid:])
-        return self.merge(l, r)
+    def mergeKLists(self, lists):
+        # Initialize the min-heap
+        heap = PriorityQueue()
+        # we are adding and maintaining i in case the heap contains identical list vals.
+        # that way i can be used as a tie breaker to determine which element is at the top of the priority queue
+        for i, lst in enumerate(lists):
+            if lst:
+                heap.put((lst.val, i, lst))
 
-    def merge(self, l, r):
-        dummy = p = ListNode()
-        while l and r:
-            if l.val < r.val:
-                p.next = l
-                l = l.next
-            else:
-                p.next = r
-                r = r.next
-            p = p.next
-        p.next = l or r
+        print(heap.qsize())
+        # Initialize the result linked list
+        dummy = ListNode(-1)
+        curr = dummy
+
+        # Extract the minimum node from the heap and add its next node to the heap
+        while not heap.empty():
+            val, i, node = heap.get()
+            curr.next = node
+            curr = curr.next
+            if node.next:
+                heap.put((node.next.val, i, node.next))
+
         return dummy.next
-        # k = len(lists)
-        # q = PriorityQueue(maxsize=k)
-        # dummy = ListNode(None)
-        # curr = dummy
-        # for list_idx, node in enumerate(lists):
-        #     if node:
-        #         q.put((node.val, list_idx, node))
-        # while q.qsize() > 0:
-        #     popped = q.get()
-        #     curr.next, list_idx = popped[2], popped[1]
-        #     curr = curr.next
-        #     if curr.next:
-        #         q.put((curr.next.val, list_idx, curr.next))
-        # return dummy.next
 
     def test_mkl(self):
         l1 = [1,4,5]
