@@ -5,7 +5,7 @@ class TwoSum(unittest.TestCase):
     """
     return index of first two elements that sum to target
     """
-    def two_sum_dic(self, nums, target):
+    def two_sum_dic(self, nums: list, target: int) -> dict:
         seen = {}
         for i, n in enumerate(nums):
             if target - n in seen:
